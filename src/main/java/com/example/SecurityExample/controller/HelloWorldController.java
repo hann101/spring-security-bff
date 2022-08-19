@@ -3,15 +3,13 @@ package com.example.SecurityExample.controller;
 import com.example.SecurityExample.domain.User;
 import com.example.SecurityExample.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class HelloWorldController {
@@ -31,10 +29,19 @@ public class HelloWorldController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<User> getUser(){
-        String username = "john";
+    public ResponseEntity<User> getUser(String username){
+//         username = "john";
         return ResponseEntity.ok().body(userService.getUser(username));
     }
+
+    @PostMapping("/xss")
+    public User getXss(User user){
+//        String username = "john";
+
+        log.info("username = " + user.getUsername());
+        return user;
+    }
+
 
 //    @GetMapping("/create")
 //    public ResponseEntity<String> createUser(){
@@ -44,10 +51,5 @@ public class HelloWorldController {
 //        return ResponseEntity.ok().body("저장 완료");
 //
 //    }
-
-    @GetMapping("/logging")
-    public ResponseEntity<String> logging() {
-        return new ResponseEntity<>("logging/baeldung", HttpStatus.OK);
-    }
 
 }
